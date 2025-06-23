@@ -1,0 +1,81 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Job Scheduler API",
+    "version": "1.0.0",
+    "description": "API documentation for the job scheduler microservice"
+  },
+  "paths": {
+    "/jobs": {
+      "get": {
+        "summary": "Get all jobs",
+        "responses": {
+          "200": {
+            "description": "A list of jobs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Job" }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new job",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Job" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Job created"
+          }
+        }
+      }
+    },
+    "/jobs/{id}": {
+      "get": {
+        "summary": "Get job by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Job details",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Job" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Job": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "cron": { "type": "string" },
+          "lastRun": { "type": "string", "format": "date-time" },
+          "nextRun": { "type": "string", "format": "date-time" }
+        }
+      }
+    }
+  }
+}
